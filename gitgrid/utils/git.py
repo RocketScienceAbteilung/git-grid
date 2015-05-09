@@ -179,7 +179,7 @@ def do_commit(message=None):
         name = 'Gitgrid: ' + names.name()
 
     try:
-        run("git commit -am '%s'" % name, print_cmd=True)
+        run("git commit -am '%s'" % name, print_cmd=True, print_ret=True)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -203,7 +203,7 @@ def do_checkout(name):
 
 def do_merge(name):
     try:
-        run("git merge %s" % name, print_cmd=True)
+        run("git merge %s" % name, print_cmd=True, print_ret=True)
         try:
             run("git branch -d %s" % name, print_cmd=True)
         except subprocess.CalledProcessError:
