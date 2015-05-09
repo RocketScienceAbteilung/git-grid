@@ -39,5 +39,6 @@ if __name__ == "__main__":
 
         entry_points={'console_scripts': [
             'git-grid=gitgrid:main',
+            'pat=pat:main',
         ]},
     )
