@@ -39,9 +39,9 @@ class PushCat(object):  # Like netcat, but for push
             )
         self.lock.release()
 
-    def __init__(self, daemonize=False):
+    def __init__(self, daemonize=False, buflen=80):
         self.scrollwheel = 0
-        self.buflen = 80
+        self.buflen = buflen
         self.lines = collections.deque([''] * self.buflen)
         self.lock = threading.Lock()
 
@@ -82,9 +82,11 @@ class PushCat(object):  # Like netcat, but for push
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--daemonize', '-d',
-        action="store_true",
+        '--daemonize', '-d', action="store_true",
+    )
+    parser.add_argument(
+        '--buflen', '-b', type=int, default=80,
     )
     args = parser.parse_args()
 
-    PushCat(args.daemonize)
+    PushCat(args.daemonize, args.buflen)
