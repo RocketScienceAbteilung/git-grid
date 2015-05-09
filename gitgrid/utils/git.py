@@ -2,7 +2,19 @@ import random
 import string
 import subprocess
 import re
+import sys
 from . import utils, names
+
+
+def run(cmd, print_cmd=False, print_ret=False):
+    if print_cmd:
+        print cmd
+        sys.stdout.flush()
+    ret = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+    if print_ret:
+        print ret
+        sys.stdout.flush()
+    return ret
 
 #
 #
@@ -15,18 +27,15 @@ from . import utils, names
 
 def get_log(start):
     start += 1
-    return subprocess.check_output(
+    return run(
         "git log --graph --decorate --pretty=oneline "
-        "--all | sed -n %d,%dp" % (start, start+15),
-        shell=True
+        "--all | sed -n %d,%dp" % (start, start+15)
     )
 
 
 def get_diff():
-    files = subprocess.check_output(
-        "git diff --numstat",
-        shell=True
-    ).splitlines()
+    run("git diff", print_cmd=True, print_ret=True)
+    files = run("git diff --numstat").splitlines()
 
     return [
         (
@@ -41,9 +50,8 @@ def get_diff():
 
 
 def get_branches(exclude=None):
-    branches = subprocess.check_output(
-        "git for-each-ref --format='%(refname:short)' refs/heads/",
-        shell=True
+    branches = run(
+        "git for-each-ref --format='%(refname:short)' refs/heads/"
     ).splitlines()
 
     return [i for i in branches if not i == exclude]
@@ -51,29 +59,22 @@ def get_branches(exclude=None):
 
 def get_current_branch():
     try:
-        return subprocess.check_output(
-            "git symbolic-ref --short -q HEAD",
-            shell=True
-        ).strip()
+        return run("git symbolic-ref --short -q HEAD").strip()
     except subprocess.CalledProcessError:
         # An error means we are on no branch (detached HEAD)
         return ""
 
 
 def get_current_commit():
-    return subprocess.check_output(
-        "git rev-parse HEAD",
-        shell=True
-    ).strip()
+    return run("git rev-parse HEAD").strip()
 
 
 def get_between(branches):
     return [
         (
             branch,
-            map(int, subprocess.check_output(
-                "git rev-list --left-right --count $HEAD...%s" % branch,
-                shell=True
+            map(int, run(
+                "git rev-list --left-right --count $HEAD...%s" % branch
             )[:-1].split('\t'))
         ) for branch in branches
     ]
@@ -81,9 +82,8 @@ def get_between(branches):
 
 def get_can_merge(branch):
     try:
-        subprocess.check_output(
-            "git format-patch HEAD..%s --stdout | git apply --check -" % branch,
-            shell=True
+        run(
+            "git format-patch HEAD..%s --stdout | git apply --check -" % branch
         ).strip()
         return True
     except subprocess.CalledProcessError:
@@ -92,10 +92,7 @@ def get_can_merge(branch):
 
 def get_can_merge_ff(branch):
     try:
-        base = subprocess.check_output(
-            "git merge-base HEAD %s" % branch,
-            shell=True
-        ).strip()
+        base = run("git merge-base HEAD %s" % branch).strip()
 
         if base == get_current_commit():
             return True
@@ -171,10 +168,7 @@ def do_new_branch(name=None):
         name = 'gitgrid-' + names.handle()
 
     try:
-        subprocess.check_output(
-            "git checkout -b %s" % name,
-            shell=True
-        )
+        run("git checkout -b %s" % name, print_cmd=True)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -185,10 +179,7 @@ def do_commit(message=None):
         name = 'Gitgrid: ' + names.name()
 
     try:
-        subprocess.check_output(
-            "git commit -am '%s'" % name,
-            shell=True
-        )
+        run("git commit -am '%s'" % name, print_cmd=True)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -196,10 +187,7 @@ def do_commit(message=None):
 
 def do_resethard():
     try:
-        subprocess.check_output(
-            "git reset --hard HEAD",
-            shell=True
-        )
+        run("git reset --hard HEAD", print_cmd=True)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -207,10 +195,7 @@ def do_resethard():
 
 def do_checkout(name):
     try:
-        subprocess.check_output(
-            "git checkout %s" % name,
-            shell=True
-        )
+        run("git checkout %s" % name, print_cmd=True)
         return True
     except subprocess.CalledProcessError:
         return False
@@ -218,21 +203,12 @@ def do_checkout(name):
 
 def do_merge(name):
     try:
-        subprocess.check_output(
-            "git merge %s" % name,
-            shell=True
-        )
+        run("git merge %s" % name, print_cmd=True)
         try:
-            subprocess.check_output(
-                "git branch -d %s" % name,
-                shell=True
-            )
+            run("git branch -d %s" % name, print_cmd=True)
         except subprocess.CalledProcessError:
             pass
         return True
     except subprocess.CalledProcessError:
-        subprocess.check_output(
-            "git merge --abort",
-            shell=True
-        )
+        run("git merge --abort", print_cmd=True)
         return False
