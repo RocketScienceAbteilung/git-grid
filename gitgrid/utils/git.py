@@ -33,7 +33,7 @@ def get_log(start):
 
 def get_diff(start):
     start += 1
-    run("git diff", print_cmd=True, print_ret=True)
+    run("git diff --stat", print_cmd=True, print_ret=True)
     files = run(
         "git diff --numstat  | sed -n %d,%dp" % (start, start+15)
     ).splitlines()
@@ -48,6 +48,12 @@ def get_diff(start):
         )
         for i in files
     ]
+
+
+def get_file_diff(filename):
+    return run(
+        "git diff %s" % filename
+    ).strip()
 
 
 def get_branches(exclude=None):

@@ -33,7 +33,7 @@ class Diff(Page):
             )
 
     def filename(self, a, b, c, fn=None):
-        print fn
+        print git.get_file_diff(fn)
 
     def pg_cancel(self, action, message):
         if git.do_resethard():
