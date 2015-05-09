@@ -33,6 +33,10 @@ Run gitgrid
 #### Options
 
  - `-c` switch between supported grid controllers.
-   - `launchpad`: Novation Launchpad Mini
+   - `lpm`: Novation Launchpad Mini
+   - `lp`: Novation Launchpad S
+   - `lpp`: Novation Launchpad Pro
    - `push`: Akai Ableton Push
    - `mpl`: Matplotlib software emulation
+ - `-i` manually set input port
+ - `-o` manually set output port
