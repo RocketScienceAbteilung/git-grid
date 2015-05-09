@@ -11,7 +11,7 @@ class Diff(Page):
 
         files = git.get_diff(self.page * 8)
 
-        if not files:
+        if not files and self.page > 0:
             self.page -= 1
             self.error()
             self.draw()
