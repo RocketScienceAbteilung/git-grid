@@ -9,6 +9,13 @@ class Log(Page):
         super(Log, self).draw()
 
         log = git.parse_log(git.get_log(self.page * 8), 8)
+
+        if not log:
+            self.page -= 1
+            self.error()
+            self.draw()
+            return
+
         head = git.get_current_commit()
         graph_width = max(git.parse_tree_width(log))
 

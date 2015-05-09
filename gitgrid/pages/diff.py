@@ -9,7 +9,14 @@ class Diff(Page):
     def draw(self):
         super(Diff, self).draw()
 
-        files = git.get_diff()
+        files = git.get_diff(self.page * 8)
+
+        if not files:
+            self.page -= 1
+            self.error()
+            self.draw()
+            return
+
         files = utils.normalize_sum(files)
 
         for i, (fn, (a, b)) in enumerate(files):

@@ -31,9 +31,12 @@ def get_log(start):
     )
 
 
-def get_diff():
+def get_diff(start):
+    start += 1
     run("git diff", print_cmd=True, print_ret=True)
-    files = run("git diff --numstat").splitlines()
+    files = run(
+        "git diff --numstat  | sed -n %d,%dp" % (start, start+15)
+    ).splitlines()
 
     return [
         (

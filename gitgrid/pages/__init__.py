@@ -26,6 +26,7 @@ class Page(object):
     def pg_up(self, action, message):
         self.page -= 1
         if self.page < 0:
+            self.error()
             self.page = 0
         self.draw()
 
