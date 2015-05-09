@@ -111,8 +111,11 @@ class GridController(object):
         if button:
             row, col = button
 
-            if self.buttons[row, col]:
-                return self.buttons[row, col](row, col, message)
+            try:
+                if self.buttons[row, col]:
+                    return self.buttons[row, col](row, col, message)
+            except IndexError:
+                pass
 
     def iter_changed(self, *args):
         """
