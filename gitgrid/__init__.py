@@ -1,5 +1,4 @@
 import sys
-import sched
 import time
 import argparse
 from .pages import diff, log, branches
@@ -23,27 +22,14 @@ class PageManager(object):
         }
 
         self.refreshevent = None
-        self.scheduler = sched.scheduler(time.time, time.sleep)
-
         self.switchto('tab1', None)
 
-        # Some Gridcontroller (mainly matplotlib) do not like schedulers
-        if controller.run_scheduler:
-            self.scheduler.run()
-
     def switchto(self, action, message):
-        try:
-            self.scheduler.cancel(self.refreshevent)
-        except ValueError:
-            pass
-
         self.active = action
         self.pages[self.active].activate()
-        self.refreshevent = self.scheduler.enter(5, 1, self.refresh, ())
 
     def refresh(self):
         self.pages[self.active].draw()
-        self.refreshevent = self.scheduler.enter(5, 1, self.refresh, ())
 
 
 def main(inargs=None):

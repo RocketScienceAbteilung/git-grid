@@ -22,7 +22,6 @@ class Matplotlib(GridController):
         plt.draw()
 
         super(Matplotlib, self).__init__(input, output)
-        self.run_scheduler = False
 
     def iter_changed(self, *args):
         self.plot.set_data(self.lights)

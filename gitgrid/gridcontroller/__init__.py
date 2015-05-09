@@ -84,7 +84,6 @@ class GridController(object):
 
         self.lights.on('change', self.iter_changed)
         self.input.callback = self.button_pressed
-        self.run_scheduler = True
 
         self.actions = {
             'up': None,
