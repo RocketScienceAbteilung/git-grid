@@ -95,6 +95,8 @@ class GridController(object):
             'tab2': None,
             'tab3': None,
             'tab4': None,
+            'ok': None,
+            'cancel': None,
         }
 
     def button_pressed(self, message):

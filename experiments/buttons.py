@@ -33,6 +33,8 @@ tmp.actions = {
     'tab2': foo,
     'tab3': foo,
     'tab4': foo,
+    'ok': foo,
+    'cancel': foo,
 }
 
 tmp.loop()

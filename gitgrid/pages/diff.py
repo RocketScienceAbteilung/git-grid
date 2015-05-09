@@ -21,12 +21,12 @@ class Diff(Page):
             self.controller.lights[i, start:middle] = numpy.array([1, 0, 0])
             self.controller.lights[i, middle:end] = numpy.array([0, 1, 0])
 
-    def pg_left(self, action, message):
+    def pg_cancel(self, action, message):
         if git.do_resethard():
             self.confirm()
         self.draw()
 
-    def pg_right(self, action, message):
+    def pg_ok(self, action, message):
         if git.do_commit():
             self.confirm()
         self.draw()

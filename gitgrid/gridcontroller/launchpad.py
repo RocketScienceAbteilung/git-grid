@@ -60,9 +60,20 @@ class Launchpad(GridController):
             111: 'tab4',
         }
 
+        lookup_note = {
+            120: 'ok',
+            104: 'cancel',
+        }
+
         if message.type == 'control_change' and message.value == 127:
             try:
                 return lookup[message.control]
+            except KeyError:
+                return
+
+        if message.type == 'note_on' and message.velocity == 127:
+            try:
+                return lookup_note[message.note]
             except KeyError:
                 return
 
@@ -142,6 +153,8 @@ class LaunchpadPro(GridController):
             96: 'tab2',
             97: 'tab3',
             98: 'tab4',
+            19: 'ok',
+            29: 'cancel',
         }
 
         if message.type == 'control_change' and message.value == 127:

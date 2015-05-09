@@ -33,7 +33,11 @@ class Matplotlib(GridController):
         if not hasattr(event, 'key'):
             return
 
-        if event.key in ('up', 'down', 'left', 'right'):
+        if event.key == 'enter':
+            return 'ok'
+        elif event.key in ('backspace', 'escape'):
+            return 'cancel'
+        elif event.key in ('up', 'down', 'left', 'right'):
             return event.key
         elif event.key in ('1', '2', '3', '4'):
             return 'tab' + event.key

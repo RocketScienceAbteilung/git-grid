@@ -182,6 +182,8 @@ class Push(GridController):
             107: 'tab2',
             108: 'tab3',
             109: 'tab4',
+            85: 'ok',
+            86: 'cancel',
         }
 
         if message.type == 'control_change' and message.value == 127:

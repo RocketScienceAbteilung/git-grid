@@ -13,6 +13,8 @@ class Page(object):
         self.controller.actions['down'] = self.pg_down
         self.controller.actions['left'] = self.pg_left
         self.controller.actions['right'] = self.pg_right
+        self.controller.actions['ok'] = self.pg_ok
+        self.controller.actions['cancel'] = self.pg_cancel
 
         self.controller.buttons[:, :] = None
         self.controller.lights[:, :] = numpy.array((0, 0, 0))
@@ -35,6 +37,12 @@ class Page(object):
         pass
 
     def pg_right(self, action, message):
+        pass
+
+    def pg_ok(self, action, message):
+        pass
+
+    def pg_cancel(self, action, message):
         pass
 
     def flash(self, color):
