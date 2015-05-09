@@ -20,6 +20,13 @@ class Diff(Page):
             self.controller.lights[i, 0] = utils.string_to_rgb(fn)[0]
             self.controller.lights[i, start:middle] = numpy.array([1, 0, 0])
             self.controller.lights[i, middle:end] = numpy.array([0, 1, 0])
+            self.controller.buttons[i, :] = functools.partial(
+                self.filename,
+                fn=fn
+            )
+
+    def filename(self, a, b, c, fn=None):
+        print fn
 
     def pg_cancel(self, action, message):
         if git.do_resethard():

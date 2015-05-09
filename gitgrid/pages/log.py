@@ -27,7 +27,7 @@ class Log(Page):
             self.draw()
 
         for i, (h, _) in enumerate(log):
-            self.controller.buttons[i, 0] = functools.partial(
+            self.controller.buttons[i, :] = functools.partial(
                 checkout,
                 name=h
             )
