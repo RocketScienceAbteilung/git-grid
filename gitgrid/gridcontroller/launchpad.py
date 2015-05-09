@@ -82,13 +82,13 @@ class LaunchpadS(Launchpad):
     def __init__(self, input=None, output=None):
         if input is None:
             try:
-                input = mido.open_input('Launchpad', callback=True)
+                input = mido.open_input('Launchpad S', callback=True)
             except IOError:
-                input = mido.open_input('Launchpad MIDI 1', callback=True)
+                input = mido.open_input('Launchpad S MIDI 1', callback=True)
         if output is None:
             try:
-                output = mido.open_output('Launchpad')
+                output = mido.open_output('Launchpad S')
             except IOError:
-                output = mido.open_output('Launchpad MIDI 1')
+                output = mido.open_output('Launchpad S MIDI 1')
 
-        super(Launchpad, self).__init__(input, output)
+        super(LaunchpadS, self).__init__(input, output)
