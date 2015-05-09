@@ -174,6 +174,8 @@ def create(name, input=None, output=None, *args):
         ctl = launchpad.Launchpad
     elif name.lower() in ("launchpads", "launchpad s", "lp", "lps"):
         ctl = launchpad.LaunchpadS
+    elif name.lower() in ("launchpadpro", "launchpad pro", "lpp"):
+        ctl = launchpad.LaunchpadPro
     elif name.lower() in ("matplotlib", "mpl"):
         ctl = mpl.Matplotlib
     else:

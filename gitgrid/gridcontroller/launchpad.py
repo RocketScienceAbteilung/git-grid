@@ -92,3 +92,60 @@ class LaunchpadS(Launchpad):
                 output = mido.open_output('Launchpad S MIDI 1')
 
         super(LaunchpadS, self).__init__(input, output)
+
+
+class LaunchpadPro(GridController):
+    pad_offset = 36
+
+    def __init__(self, input=None, output=None):
+        if input is None:
+            try:
+                input = mido.open_input('Launchpad Pro', callback=True)
+            except IOError:
+                input = mido.open_input('Launchpad Pro MIDI 2', callback=True)
+        if output is None:
+            try:
+                output = mido.open_output('Launchpad Pro')
+            except IOError:
+                output = mido.open_output('Launchpad Pro MIDI 2')
+
+        self.lights = lights((8, 8))
+        self.buttons = buttons((8, 8))
+
+        super(LaunchpadPro, self).__init__(input, output)
+
+    def update(self, x, y, value):
+        x = 7 - x
+        button = y + ((x + 1) * 10) + 1
+
+        data = [0, 32, 41, 2, 16, 11, button] + map(lambda x: int(x*127), value)
+        self.output.send(
+            mido.Message('sysex', data=data)
+        )
+
+    def on_tap(self, message):
+        if message.type == 'note_on' and message.velocity > 0:
+            row = message.note // 10
+            col = message.note % 10
+        else:
+            return
+
+        return 8 - row, col - 1
+
+    def on_action(self, message):
+        lookup = {
+            91: 'up',
+            92: 'down',
+            93: 'left',
+            94: 'right',
+            95: 'tab1',
+            96: 'tab2',
+            97: 'tab3',
+            98: 'tab4',
+        }
+
+        if message.type == 'control_change' and message.value == 127:
+            try:
+                return lookup[message.control]
+            except KeyError:
+                return
