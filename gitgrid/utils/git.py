@@ -56,10 +56,14 @@ def get_file_diff(filename):
     ).strip()
 
 
-def get_branches(exclude=None):
-    branches = run(
-        "git for-each-ref --format='%(refname:short)' refs/heads/"
-    ).splitlines()
+def get_branches(start, exclude=None):
+    branches = sorted(
+        run(
+            "git for-each-ref --format='%(refname:short)' refs/heads/"
+        ).splitlines(),
+        key=lambda item: (item == "master", item),
+        reverse=True
+    )[start:start+7]
 
     return [i for i in branches if not i == exclude]
 
