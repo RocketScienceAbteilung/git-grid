@@ -1,3 +1,4 @@
+import argparse
 import math
 import re
 import hashlib
@@ -46,3 +47,26 @@ def normalize_single(val, maxlen=3.):
         ]
     else:
         return val
+
+
+def controller_args(parser=None, parse=True):
+    if parser is None:
+        parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        '--controller', '-c',
+        default="launchpad",
+    )
+    parser.add_argument(
+        '--input', '-i',
+        default=None,
+    )
+    parser.add_argument(
+        '--output', '-o',
+        default=None,
+    )
+
+    if parse:
+        return parser.parse_args()
+    else:
+        return parser

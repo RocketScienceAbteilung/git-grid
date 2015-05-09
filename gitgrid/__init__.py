@@ -3,6 +3,7 @@ import time
 import argparse
 from .pages import diff, log, branches
 from . import gridcontroller
+import gitgrid.utils.utils
 
 
 class PageManager(object):
@@ -45,14 +46,9 @@ class PageManager(object):
 
 
 def main(inargs=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--controller', '-c',
-        default="launchpad",
-    )
-    args = parser.parse_args(inargs)
+    args = gitgrid.utils.utils.controller_args()
 
-    controller = gridcontroller.create(args.controller)
+    controller = gridcontroller.create(args.controller, args.input, args.output)
     manager = PageManager(controller)
     controller.loop()
 

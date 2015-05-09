@@ -4,15 +4,10 @@ import time
 import mido
 import colorsys
 import gitgrid.gridcontroller
+import gitgrid.utils.utils
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    '--controller', '-c',
-    default="launchpad",
-)
-args = parser.parse_args()
-
-tmp = gitgrid.gridcontroller.create(args.controller)
+args = gitgrid.utils.utils.controller_args()
+tmp = gitgrid.gridcontroller.create(args.controller, args.input, args.output)
 
 
 def toggle(x, y, Message):

@@ -3,15 +3,11 @@ import mido
 import gitgrid.gridcontroller
 import numpy as np
 import cv2
+import gitgrid.utils.utils
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    '--controller', '-c',
-    default="launchpad",
-)
-args = parser.parse_args()
+args = gitgrid.utils.utils.controller_args()
 
-tmp = gitgrid.gridcontroller.create(args.controller)
+tmp = gitgrid.gridcontroller.create(args.controller, args.input, args.output)
 cap = cv2.VideoCapture(0)
 
 def toggle(x, y, Message):

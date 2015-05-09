@@ -161,9 +161,9 @@ def create(name, input=None, output=None, *args):
     inport = outport = None
 
     if input is not None:
-        inport = mido.open_input('Ableton Push User Port', callback=True)
+        inport = mido.open_input(input, callback=True)
     if output is not None:
-        outport = mido.open_output('Ableton Push User Port')
+        outport = mido.open_output(output)
 
     if name.lower() in ("push"):
         ctl = push.Push
