@@ -1,3 +1,4 @@
+import sys
 import sched
 import time
 import argparse
@@ -48,6 +49,7 @@ class PageManager(object):
 def main(inargs=None):
     args = gitgrid.utils.utils.controller_args()
 
+    sys.stdout = gitgrid.utils.utils.Unbuffered(sys.stdout)
     controller = gridcontroller.create(args.controller, args.input, args.output)
     manager = PageManager(controller)
     controller.loop()

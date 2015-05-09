@@ -9,11 +9,9 @@ from . import utils, names
 def run(cmd, print_cmd=False, print_ret=False):
     if print_cmd:
         print ">>> %s" % cmd
-        sys.stdout.flush()
     ret = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
     if print_ret:
         print ret
-        sys.stdout.flush()
     return ret
 
 #
