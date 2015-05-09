@@ -204,10 +204,11 @@ def do_checkout(name):
 def do_merge(name):
     try:
         run("git merge %s" % name, print_cmd=True, print_ret=True)
-        try:
-            run("git branch -d %s" % name, print_cmd=True)
-        except subprocess.CalledProcessError:
-            pass
+        if name != "master":
+            try:
+                run("git branch -d %s" % name, print_cmd=True)
+            except subprocess.CalledProcessError:
+                pass
         return True
     except subprocess.CalledProcessError:
         run("git merge --abort", print_cmd=True)
