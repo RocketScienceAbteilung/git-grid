@@ -11,10 +11,11 @@ def main(argv=None):
     for outline, line in enumerate(fileinput.input()):
         outline = outline % 4
 
-        line = line.strip().ljust(68)
-        line = (line[:66] + '..') if len(line) > 68 else line
-        data = [71, 127, 21, 24+outline, 0, 69, 0] + map(ord, line)
+        if len(line.strip()):
+            line = line[:-1].ljust(68)
+            line = (line[:66] + '..') if len(line) > 68 else line
+            data = [71, 127, 21, 24+outline, 0, 69, 0] + map(ord, line)
 
-        output.send(
-            mido.Message('sysex', data=data)
-        )
+            output.send(
+                mido.Message('sysex', data=data)
+            )
