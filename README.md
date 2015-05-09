@@ -14,6 +14,7 @@ Create virtualenv
 
     virtualenv midihack
     cd midihack
+    source bin/activate
 
 
 ### Installing git grid
