@@ -76,3 +76,19 @@ class Launchpad(GridController):
             return
 
         return row, col
+
+
+class LaunchpadS(Launchpad):
+    def __init__(self, input=None, output=None):
+        if input is None:
+            try:
+                input = mido.open_input('Launchpad', callback=True)
+            except IOError:
+                input = mido.open_input('Launchpad MIDI 1', callback=True)
+        if output is None:
+            try:
+                output = mido.open_output('Launchpad')
+            except IOError:
+                output = mido.open_output('Launchpad MIDI 1')
+
+        super(Launchpad, self).__init__(input, output)

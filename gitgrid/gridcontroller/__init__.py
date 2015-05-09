@@ -158,9 +158,12 @@ def create(name, *args):
     if name.lower() in ("push"):
         from . import push
         return push.Push(*args)
-    elif name.lower() in ("launchpad", "launchpad mini"):
+    elif name.lower() in ("launchpad", "launchpad mini", "lmp"):
         from . import launchpad
         return launchpad.Launchpad(*args)
+    elif name.lower() in ("launchpads", "launchpad s", "lp", "lps"):
+        from . import launchpad
+        return launchpad.LaunchpadS(*args)
     elif name.lower() in ("matplotlib", "mpl"):
         from . import mpl
         return mpl.Matplotlib(*args)
