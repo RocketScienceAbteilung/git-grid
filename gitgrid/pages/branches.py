@@ -52,7 +52,7 @@ class Branches(Page):
                 checkout,
                 name=fn
             )
-            self.controller.buttons[i, center+1] = functools.partial(
+            self.controller.buttons[i, -1] = functools.partial(
                 merge,
                 name=fn
             )
