@@ -100,12 +100,12 @@ class LaunchpadPro(GridController):
     def __init__(self, input=None, output=None):
         if input is None:
             try:
-                input = mido.open_input('Launchpad Pro', callback=True)
+                input = mido.open_input('Launchpad Pro Standalone Port', callback=True)
             except IOError:
                 input = mido.open_input('Launchpad Pro MIDI 2', callback=True)
         if output is None:
             try:
-                output = mido.open_output('Launchpad Pro')
+                output = mido.open_output('Launchpad Pro Standalone Port')
             except IOError:
                 output = mido.open_output('Launchpad Pro MIDI 2')
 
