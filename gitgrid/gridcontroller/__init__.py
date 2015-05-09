@@ -2,6 +2,7 @@ from __future__ import division
 import threading
 import time
 import numpy
+import mido
 
 
 class GridControllerThread(threading.Thread):
@@ -154,18 +155,25 @@ class GridController(object):
             time.sleep(0.1)
 
 
-def create(name, *args):
+def create(name, input=None, output=None, *args):
+    from . import push, launchpad, mpl
+
+    inport = outport = None
+
+    if input is not None:
+        inport = mido.open_input('Ableton Push User Port', callback=True)
+    if output is not None:
+        outport = mido.open_output('Ableton Push User Port')
+
     if name.lower() in ("push"):
-        from . import push
-        return push.Push(*args)
-    elif name.lower() in ("launchpad", "launchpad mini", "lmp"):
-        from . import launchpad
-        return launchpad.Launchpad(*args)
+        ctl = push.Push
+    elif name.lower() in ("launchpad", "launchpad mini", "lpm"):
+        ctl = launchpad.Launchpad
     elif name.lower() in ("launchpads", "launchpad s", "lp", "lps"):
-        from . import launchpad
-        return launchpad.LaunchpadS(*args)
+        ctl = launchpad.LaunchpadS
     elif name.lower() in ("matplotlib", "mpl"):
-        from . import mpl
-        return mpl.Matplotlib(*args)
+        ctl = mpl.Matplotlib
     else:
         raise ValueError("Gridcontroller %s not found" % name)
+
+    return ctl(*args, input=inport, output=outport)
