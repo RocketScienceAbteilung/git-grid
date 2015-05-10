@@ -1,6 +1,6 @@
 # git grid
 
-Control git from your grid controller
+Control git from your grid controller. Works nicely with a [plain text pattern sequencer](https://github.com/RocketScienceAbteilung/git-wig) but works with any git reposity. 
 
 ![image](http://i.imgur.com/DdShbq2.jpg)
 
