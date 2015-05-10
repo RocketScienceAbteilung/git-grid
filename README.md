@@ -2,6 +2,8 @@
 
 Control git from your grid controller
 
+![image](http://i.imgur.com/DdShbq2.jpg)
+
 
 ## Installation
 
